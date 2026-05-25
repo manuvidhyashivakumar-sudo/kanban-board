@@ -1,23 +1,34 @@
+import { useDroppable } from "@dnd-kit/core";
 import TaskCard from "./TaskCard";
 
-function Column({
-  title,
-  tasks,
-  openModal,
-}) {
-  return (
-    <div className="bg-gray-200 rounded p-4 min-h-[500px]">
-      <h2 className="text-xl font-bold mb-4">
-        {title}
-      </h2>
+function Column({ column, tasks }) {
+  const { setNodeRef } = useDroppable({
+    id: column.id,
+  });
 
-      {tasks.map((task) => (
-        <TaskCard
-          key={task.id}
-          task={task}
-          openModal={openModal}
-        />
-      ))}
+  return (
+    <div
+      ref={setNodeRef}
+      className="bg-slate-800/60 backdrop-blur-lg rounded-3xl p-5 min-h-[500px] shadow-2xl border border-slate-700"
+    >
+      <div className="flex justify-between items-center mb-5">
+        <h2 className="text-2xl font-bold">
+          {column.title}
+        </h2>
+
+        <span className="bg-slate-700 px-3 py-1 rounded-full text-sm">
+          {tasks.length}
+        </span>
+      </div>
+
+      <div className="space-y-4">
+        {tasks.map((task) => (
+          <TaskCard
+            key={task.id}
+            task={task}
+          />
+        ))}
+      </div>
     </div>
   );
 }

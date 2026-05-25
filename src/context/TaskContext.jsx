@@ -1,26 +1,18 @@
-import {
-  createContext,
-  useEffect,
-  useState,
-} from "react";
-
+import { createContext, useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+
+
 
 export const TaskContext = createContext();
 
 export const TaskProvider = ({ children }) => {
-  const [tasks, setTasks] = useState(() => {
-    const saved =
-      localStorage.getItem("tasks");
 
-    return saved ? JSON.parse(saved) : [];
-  });
+  const [tasks, setTasks] = useState(
+    JSON.parse(localStorage.getItem("tasks")) || []
+  );
 
   useEffect(() => {
-    localStorage.setItem(
-      "tasks",
-      JSON.stringify(tasks)
-    );
+    localStorage.setItem("tasks", JSON.stringify(tasks));
   }, [tasks]);
 
   const addTask = (task) => {
@@ -34,17 +26,13 @@ export const TaskProvider = ({ children }) => {
   };
 
   const deleteTask = (id) => {
-    setTasks(
-      tasks.filter((task) => task.id !== id)
-    );
+    setTasks(tasks.filter((task) => task.id !== id));
   };
 
   const updateTask = (updatedTask) => {
     setTasks(
       tasks.map((task) =>
-        task.id === updatedTask.id
-          ? updatedTask
-          : task
+        task.id === updatedTask.id ? updatedTask : task
       )
     );
   };

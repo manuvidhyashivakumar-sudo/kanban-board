@@ -1,57 +1,57 @@
-import { useState, useContext } from "react";
+import { useContext, useState } from "react";
+
 import { TaskContext } from "../context/TaskContext";
 
-function TaskModal({ task, closeModal }) {
+function TaskModal({ task, close }) {
   const { updateTask } =
     useContext(TaskContext);
 
-  const [editedTask, setEditedTask] =
+  const [editTask, setEditTask] =
     useState(task);
 
   const handleSave = () => {
-    updateTask(editedTask);
-    closeModal();
+    updateTask(editTask);
+    close();
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center">
-      <div className="bg-white p-6 rounded w-[400px]">
-        <h2 className="text-2xl font-bold mb-4">
+    <div className="fixed inset-0 bg-black/60 flex justify-center items-center z-50">
+      <div className="bg-slate-800 p-8 rounded-3xl w-[90%] md:w-[500px]">
+        <h2 className="text-3xl font-bold mb-5">
           Edit Task
         </h2>
 
         <input
-          type="text"
-          value={editedTask.title}
+          value={editTask.title}
           onChange={(e) =>
-            setEditedTask({
-              ...editedTask,
+            setEditTask({
+              ...editTask,
               title: e.target.value,
             })
           }
-          className="border p-2 w-full mb-3 rounded"
+          className="w-full p-3 rounded-xl bg-slate-700 mb-4"
         />
 
         <textarea
-          value={editedTask.description}
+          value={editTask.description}
           onChange={(e) =>
-            setEditedTask({
-              ...editedTask,
+            setEditTask({
+              ...editTask,
               description: e.target.value,
             })
           }
-          className="border p-2 w-full mb-3 rounded"
+          className="w-full p-3 rounded-xl bg-slate-700 mb-4"
         />
 
         <select
-          value={editedTask.status}
+          value={editTask.status}
           onChange={(e) =>
-            setEditedTask({
-              ...editedTask,
+            setEditTask({
+              ...editTask,
               status: e.target.value,
             })
           }
-          className="border p-2 w-full mb-3 rounded"
+          className="w-full p-3 rounded-xl bg-slate-700 mb-4"
         >
           <option value="todo">
             To Do
@@ -66,19 +66,19 @@ function TaskModal({ task, closeModal }) {
           </option>
         </select>
 
-        <div className="flex gap-3">
+        <div className="flex gap-4">
           <button
             onClick={handleSave}
-            className="bg-green-500 text-white px-4 py-2 rounded"
+            className="bg-green-500 px-5 py-2 rounded-xl"
           >
             Save
           </button>
 
           <button
-            onClick={closeModal}
-            className="bg-gray-400 text-white px-4 py-2 rounded"
+            onClick={close}
+            className="bg-red-500 px-5 py-2 rounded-xl"
           >
-            Cancel
+            Close
           </button>
         </div>
       </div>
